@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Footer from "$lib/client/components/Footer.svelte";
+
 </script>
 
 <main class="mx-auto max-w-5xl min-h-screen space-y-8 py-24 px-4">
@@ -19,3 +21,4 @@
 		</ul>
 	</section>
 </main>
+<Footer />
