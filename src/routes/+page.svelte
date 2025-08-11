@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<main class="mx-auto max-w-5xl space-y-8 py-24">
+<main class="mx-auto max-w-5xl min-h-screen space-y-8 py-24 px-4">
 	<section class="space-y-2">
 		<h1 class="text-5xl">Serve That Task</h1>
 		<p class="text-xl">The easy non-bloated employee tasking and messaging app!</p>
