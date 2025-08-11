@@ -30,6 +30,7 @@
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/node": "^22",
 		"@types/pg": "^8.15.4",
+		"daisyui": "^5.0.50",
 		"drizzle-kit": "^0.30.6",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",

@@ -8,7 +8,7 @@ import { user } from './authentication.schema';
 export const Org = pgTable('organization', {
 	id: uuid('id')
 		.primaryKey()
-		.default(sql`gen_random_uuid()`),
+		.defaultRandom(),
 	name: text('name').notNull(),
 	timezone: text('timezone').notNull(),
 	country: text('country').notNull(),

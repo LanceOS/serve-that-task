@@ -4,7 +4,7 @@ import { user } from './authentication.schema';
 
 export const organizationRelation = relations(Org, ({ one }) => ({
 	user: one(user, {
-		fields: [Org.owner],
+		fields: [Org.ownerId],
 		references: [user.id]
 	})
 }));

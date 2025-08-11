@@ -8,7 +8,7 @@ import { defaults } from './structures/base.schema';
 export const Journals = pgTable('journals', {
 	id: uuid('id')
 		.primaryKey()
-		.default(sql`gen_random_uuid()`),
+		.defaultRandom(),
 	action: text('action').notNull(),
 	actionSuccess: boolean('action_success').default(false).notNull(),
 	description: text('description').notNull(),
