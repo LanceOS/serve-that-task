@@ -20,9 +20,8 @@ import { Pool } from "pg";
 
 // Import all defined database schema files.
 // These files contain the Drizzle ORM definitions for the database tables and relationships.
-import * as authentication from "./server/schemas/authentication";
-import * as example from "./server/schemas/example";
-import * as relations from "./server/schemas/relations";
+import * as authentication from "./server/schemas/authentication.schema";
+import * as organization from "./server/schemas/organization.schema"
 
 /**
  * @constant {string} databaseUrl
@@ -85,9 +84,9 @@ testConnection();
  * schemas to a "barrel" file. Learn more about barrels here at https://basarat.gitbook.io/typescript/main-1/barrel.
  */
 const schemas = {
-    ...authentication, // Includes all table and relation schemas from 'authentication.ts'.
-    ...example,         // Includes all table and relation schemas from 'example.ts'.
-    ...relations        // Includes all table and relation schemas from 'relations.ts'.
+    ...authentication,
+    ...organization
+
 };
 
 /**

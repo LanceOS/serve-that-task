@@ -20,7 +20,7 @@ import { PUBLIC_URL } from "$env/static/public";
 
 // Importing authentication-related database schemas. These define the tables
 // that 'better-auth' will use for users, sessions, etc.
-import * as authentication from "./server/schemas/authentication.js"
+import * as authentication from "./server/schemas/authentication.schema.js"
 
 /**
  * @constant {ReturnType<typeof betterAuth>} auth

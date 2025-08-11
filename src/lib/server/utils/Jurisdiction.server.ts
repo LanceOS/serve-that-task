@@ -1,7 +1,7 @@
 
 
 export const Jurisdiction = {
-    TaskCreator: async (fn: VoidFunction, args: string[]) => {
+    TaskCreator: async (fn?: VoidFunction, args: string[]) => {
         
     },
 
@@ -10,6 +10,6 @@ export const Jurisdiction = {
     },
 
     TaskDistributor: async () => {
-        
+
     }
 }
