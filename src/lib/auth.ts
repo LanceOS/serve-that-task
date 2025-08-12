@@ -21,6 +21,9 @@ import { PUBLIC_URL } from "$env/static/public";
 // Importing authentication-related database schemas. These define the tables
 // that 'better-auth' will use for users, sessions, etc.
 import * as authentication from "./server/schemas/authentication.schema.js"
+import { emailOTP } from "better-auth/plugins";
+import { Mailer } from "./server/utils/Mailer.server.js";
+import { ResendMailer } from "./server/Providers/Resend.js";
 
 /**
  * @constant {ReturnType<typeof betterAuth>} auth
@@ -65,16 +68,21 @@ export const auth = betterAuth({
         enabled: true,
         autoSignIn: false,
     },
+    plugins: [
+        emailOTP({
+            async sendVerificationOTP({ email, otp, type }) {
+                Mailer.createMail(ResendMailer, { email, otp, type })
+            }
+        })
+    ],
     socialProviders: {
-        // Add configurations for Google, GitHub, etc., here if needed.
     },
     databaseHooks: {
-        // Implement custom logic here, e.g., onUserCreated, onSignIn.
     },
     rateLimit: {
-        window: 10, // 10-second window
-        max: 100, // Max 100 requests
+        window: 10, 
+        max: 100,
     },
-    basePath: "/api/auth", // All auth routes will be under /api/auth.
-    trustedOrigins: [`${PUBLIC_URL}`] // Ensures requests come from the application's URL.
+    basePath: "/api/auth", 
+    trustedOrigins: [`${PUBLIC_URL}`] 
 });

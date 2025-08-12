@@ -22,7 +22,15 @@
 				<li>
 					<a href="/">
 						<div class="indicator -space-x-2">
-							<span class="indicator-item badge badge-secondary w-2 h-4 text-xs">12</span>
+							<span class="indicator-item badge badge-secondary h-4 w-2 text-xs">2</span>
+							<span>My Tasks</span>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/">
+						<div class="indicator -space-x-2">
+							<span class="indicator-item badge badge-secondary h-4 w-2 text-xs">12</span>
 							<span>Inbox</span>
 						</div>
 					</a>
