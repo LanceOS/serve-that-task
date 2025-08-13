@@ -20,10 +20,9 @@ import { PUBLIC_URL } from "$env/static/public";
 
 // Importing authentication-related database schemas. These define the tables
 // that 'better-auth' will use for users, sessions, etc.
-import * as authentication from "./server/schemas/authentication.schema.js"
+import * as authentication from "./server/schemas/authentication.schema"
 import { emailOTP } from "better-auth/plugins";
-import { Mailer } from "./server/utils/Mailer.server.js";
-import { ResendMailer } from "./server/Providers/Resend.js";
+import { MailerFactory } from "./server/utils/MailMan.js";
 
 /**
  * @constant {ReturnType<typeof betterAuth>} auth
@@ -70,8 +69,19 @@ export const auth = betterAuth({
     },
     plugins: [
         emailOTP({
+            expiresIn: 120,
             async sendVerificationOTP({ email, otp, type }) {
-                Mailer.createMail(ResendMailer, { email, otp, type })
+                const mailer = MailerFactory.getMailer('Resend');
+                console.log(mailer)
+                const options = {
+                    to: [email],
+                    subject: "Your one time password",
+                    html: `<strong>Your OTP code is ${otp}</strong>`,
+                    type: type,
+                    otp: otp
+                }
+
+                await MailerFactory.sendMail(mailer, options)
             }
         })
     ],

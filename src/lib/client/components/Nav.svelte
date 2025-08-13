@@ -44,7 +44,7 @@
 				</label>
 
 				<li>
-					<a href="/auth/login" class="btn btn-content" aria-label="Login">Login</a>
+					<a href="/login" class="btn btn-content" aria-label="Login">Login</a>
 				</li>
 				<li>
 					<a href="/" class="flex items-center justify-between">

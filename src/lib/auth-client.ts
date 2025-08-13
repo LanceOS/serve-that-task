@@ -41,7 +41,7 @@ export const authClient = createAuthClient({
  * @property {function} useSession - A reactive Svelte store to access the current user session.
  * @property {function} getSession - Imperatively retrieves the current user session.
  */
-export const { signIn, signUp, useSession, getSession } = createAuthClient();
+export const { signIn, signUp, useSession, getSession } = authClient;
 
 /**
  * @typedef {typeof authClient.$Infer.Session} Session

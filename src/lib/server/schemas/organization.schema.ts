@@ -1,9 +1,9 @@
-import { InferSelectModel, sql } from 'drizzle-orm';
 import { text } from 'drizzle-orm/pg-core';
 import { uuid } from 'drizzle-orm/pg-core';
 import { pgTable } from 'drizzle-orm/pg-core';
 import { defaults } from './structures/base.schema';
 import { user } from './authentication.schema';
+import type { InferSelectModel } from 'drizzle-orm';
 
 export const Org = pgTable('organization', {
 	id: uuid('id')

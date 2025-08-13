@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { useSession } from "$lib/auth-client";
 	import Footer from "$lib/client/components/Footer.svelte";
 
+  const session = useSession();
+	console.log($session)  
 </script>
 
 <main class="mx-auto max-w-5xl min-h-screen space-y-8 py-24 px-4">
