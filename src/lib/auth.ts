@@ -72,7 +72,6 @@ export const auth = betterAuth({
             expiresIn: 120,
             async sendVerificationOTP({ email, otp, type }) {
                 const mailer = MailerFactory.getMailer('Resend');
-                console.log(mailer)
                 const options = {
                     to: [email],
                     subject: "Your one time password",
@@ -88,6 +87,7 @@ export const auth = betterAuth({
     socialProviders: {
     },
     databaseHooks: {
+        
     },
     rateLimit: {
         window: 10, 

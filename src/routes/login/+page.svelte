@@ -12,9 +12,9 @@
 	const sendOTP = async () => {
 		if (!email || !email.includes('@')) {
 			Toaster.ejectToast({
-				message: "Your email must be valid!",
-				type: "error"
-			})
+				message: 'Your email must be valid!',
+				type: 'error'
+			});
 			return;
 		}
 
@@ -43,29 +43,52 @@
 					timerInterval = undefined;
 				}
 			}, 1000);
+
+			Toaster.ejectToast({
+				message: 'Email Sent',
+				type: 'info'
+			});
 		} catch (error) {
-			
-			console.error(error);
+			Toaster.ejectToast({
+				message: `${error}`,
+				type: 'error'
+			});
 		}
 	};
 
 	const confirmOTP = async () => {
 		if (!otp || otp.length !== 6) {
-			console.log('Failed');
+			Toaster.ejectToast({
+				message: 'Incorrect Code',
+				type: 'error'
+			});
 			return;
 		}
 
 		try {
-			const { data, error } = await authClient.signIn.emailOtp({
-				email,
-				otp
-			});
-
-			if (error) {
-				throw new Error(`Failed login ${error}`);
-			}
-			goto('/');
+			await authClient.signIn.emailOtp(
+				{
+					email,
+					otp
+				},
+				{
+					onSuccess: (ctx) => {
+						Toaster.ejectToast({
+							message: "Successfully signed in!",
+							type: "success"
+						})
+						goto("/")
+					},
+					onError: (ctx) => {
+						throw new Error(`Failed login ${ctx}`);
+					}
+				}
+			);
 		} catch (error) {
+			Toaster.ejectToast({
+				message: 'Failed to log in',
+				type: 'error'
+			});
 			return;
 		}
 	};

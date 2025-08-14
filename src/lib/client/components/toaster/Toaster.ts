@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 
 interface IToaster {
-	title: string;
 	message: string;
 	type: 'success' | 'error' | 'info';
 }

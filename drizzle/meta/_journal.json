@@ -29,6 +29,34 @@
       "when": 1754936034360,
       "tag": "0003_motionless_living_lightning",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755208957264,
+      "tag": "0004_stale_medusa",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1755209200545,
+      "tag": "0005_worried_sprite",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1755209287549,
+      "tag": "0006_jittery_the_renegades",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1755209668506,
+      "tag": "0007_parallel_zarek",
+      "breakpoints": true
     }
   ]
 }
