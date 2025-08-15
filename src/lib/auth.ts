@@ -10,19 +10,21 @@
  */
 
 // Import the main 'betterAuth' function.
-import { betterAuth } from "better-auth";
+import { betterAuth } from 'better-auth';
 // Import the Drizzle adapter to connect 'better-auth' with the Drizzle ORM setup.
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 // Importing initialized Drizzle ORM database client.
-import { DrizzleDB } from "./Drizzle.js";
+import { DrizzleDB } from './Drizzle.js';
 // Importing application's public URL, used for security configurations like trusted origins.
-import { PUBLIC_URL } from "$env/static/public";
+import { PUBLIC_URL } from '$env/static/public';
 
 // Importing authentication-related database schemas. These define the tables
 // that 'better-auth' will use for users, sessions, etc.
-import * as authentication from "./server/schemas/authentication.schema"
-import { emailOTP } from "better-auth/plugins";
-import { MailerFactory } from "./server/utils/MailMan.js";
+import * as authentication from './server/schemas/authentication.schema';
+import { emailOTP } from 'better-auth/plugins';
+import { MailerFactory } from './server/utils/MailMan.js';
+import { PRIVATE_GITHUB_CLIENT, PRIVATE_GITHUB_SECRET, PRIVATE_GOOGLE_CLIENT, PRIVATE_GOOGLE_SECRET } from '$env/static/private';
+import { UserServant } from './server/utils/UserServant.server.js';
 
 /**
  * @constant {ReturnType<typeof betterAuth>} auth
@@ -47,52 +49,67 @@ import { MailerFactory } from "./server/utils/MailMan.js";
  * @property {string[]} trustedOrigins - A list of URLs allowed to make authentication requests for security.
  */
 export const auth = betterAuth({
-    database: drizzleAdapter(DrizzleDB, {
-        provider: "pg", // Specifies PostgreSQL as the database provider.
-        schema: authentication // Links to the Drizzle schemas for authentication.
-    }),
-    session: {
-        expiresIn: 60 * 60 * 24 * 7, // 7 days
-        updateAge: 60 * 60 * 24 // Updates after 24 hours of activity
-    },
-    user: {
-        additionalFields: {
-            role: {
-                type: "string",
-                defaultValue: "user" // Default role for new users.
-            }
-        },
-    },
-    emailAndPassword: {
-        enabled: true,
-        autoSignIn: false,
-    },
-    plugins: [
-        emailOTP({
-            expiresIn: 120,
-            async sendVerificationOTP({ email, otp, type }) {
-                const mailer = MailerFactory.getMailer('Resend');
-                const options = {
-                    to: [email],
-                    subject: "Your one time password",
-                    html: `<strong>Your OTP code is ${otp}</strong>`,
-                    type: type,
-                    otp: otp
-                }
+	database: drizzleAdapter(DrizzleDB, {
+		provider: 'pg', // Specifies PostgreSQL as the database provider.
+		schema: authentication // Links to the Drizzle schemas for authentication.
+	}),
+	session: {
+		expiresIn: 60 * 60 * 24 * 7, // 7 days
+		updateAge: 60 * 60 * 24 // Updates after 24 hours of activity
+	},
+	user: {
+		additionalFields: {
+			role: {
+				type: 'string',
+				defaultValue: 'user' // Default role for new users.
+			}
+		}
+	},
+	emailAndPassword: {
+		enabled: true,
+		autoSignIn: false
+	},
+	plugins: [
+		emailOTP({
+			expiresIn: 120,
+			async sendVerificationOTP({ email, otp, type }) {
+				const mailer = MailerFactory.getMailer('Resend');
+				const options = {
+					to: [email],
+					subject: 'Your one time password',
+					html: `<strong>Your OTP code is ${otp}</strong>`,
+					type: type,
+					otp: otp
+				};
 
-                await MailerFactory.sendMail(mailer, options)
-            }
-        })
-    ],
-    socialProviders: {
-    },
-    databaseHooks: {
-        
-    },
-    rateLimit: {
-        window: 10, 
-        max: 100,
-    },
-    basePath: "/api/auth", 
-    trustedOrigins: [`${PUBLIC_URL}`] 
+				await MailerFactory.sendMail(mailer, options);
+			}
+		})
+	],
+	socialProviders: {
+		google: {
+			clientId: PRIVATE_GOOGLE_CLIENT as string,
+			clientSecret: PRIVATE_GOOGLE_SECRET as string
+		},
+		github: {
+			clientId: PRIVATE_GITHUB_CLIENT as string,
+			clientSecret: PRIVATE_GITHUB_SECRET as string
+		}
+	},
+	databaseHooks: {
+		user: {
+			create: {
+				// after a user is created, do some logic
+				after: async (user) => {
+					await UserServant.createProfile(user.id)
+				}
+			}
+		}
+	},
+	rateLimit: {
+		window: 10,
+		max: 100
+	},
+	basePath: '/api/auth',
+	trustedOrigins: [`${PUBLIC_URL}`]
 });

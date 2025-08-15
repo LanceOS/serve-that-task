@@ -9,6 +9,26 @@
 	let timer: number = $state(0);
 	let timerInterval: any | undefined;
 
+	const signInWithSocial = async (socialProvider: string) => {
+		await authClient.signIn.social({
+			provider: socialProvider
+		}, {
+			onSuccess: (ctx) => {
+				Toaster.ejectToast({
+					message: "Signed In!",
+					type: "success"
+				})
+				goto("/")
+			},
+			onError: (ctx) => {
+				Toaster.ejectToast({
+					message: "Failed to sign in!",
+					type: "error"
+				})
+			}
+		});
+	};
+
 	const sendOTP = async () => {
 		if (!email || !email.includes('@')) {
 			Toaster.ejectToast({
@@ -74,10 +94,10 @@
 				{
 					onSuccess: (ctx) => {
 						Toaster.ejectToast({
-							message: "Successfully signed in!",
-							type: "success"
-						})
-						goto("/")
+							message: 'Successfully signed in!',
+							type: 'success'
+						});
+						goto('/');
 					},
 					onError: (ctx) => {
 						throw new Error(`Failed login ${ctx}`);
@@ -108,12 +128,15 @@
 				<Icon icon="ic:sharp-email" />Log In</button
 			>
 			<button class="btn btn-content w-full"
-				><Icon icon="devicon:google" /> Log In With Google</button
+				><Icon icon="devicon:google" onclick={() => signInWithSocial("google")}/> Log In With Google</button
 			>
 			<button class="btn btn-content w-full"
-				><Icon icon="akar-icons:github-fill" /> Log In With Github</button
+				><Icon icon="akar-icons:github-fill" onclick={() => signInWithSocial("github")}/> Log In With Github</button
 			>
 			<button class="btn btn-content w-full"><Icon icon="bi:apple" /> Log In With Apple</button>
+			<button class="btn btn-content w-full"
+				><Icon icon="ion:logo-microsoft" /> Log In With Microsoft</button
+			>
 		</div>
 	</fieldset>
 </main>

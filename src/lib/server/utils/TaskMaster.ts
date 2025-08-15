@@ -1,6 +1,6 @@
 
 
-export const Jurisdiction = {
+export const TaskMaster = {
     TaskCreator: async (fn?: VoidFunction, args: string[]) => {
         
     },

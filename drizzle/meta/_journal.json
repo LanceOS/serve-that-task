@@ -57,6 +57,13 @@
       "when": 1755209668506,
       "tag": "0007_parallel_zarek",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1755218890362,
+      "tag": "0008_swift_vapor",
+      "breakpoints": true
     }
   ]
 }

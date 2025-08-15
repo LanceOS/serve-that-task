@@ -1,5 +1,21 @@
 <script lang="ts">
+	import { authClient } from '$lib/auth-client';
 	import Icon from '@iconify/svelte';
+	import { Toaster } from './toaster/Toaster';
+	import { goto } from '$app/navigation';
+
+	const signOut = async () => {
+		await authClient.signOut().then(() => {
+			goto("/")
+		}).catch(error => {
+			Toaster.ejectToast({
+				message: "Failed to sign out!",
+				type: "error"
+			})
+		})
+	}
+
+	const session = authClient.useSession();
 </script>
 
 <div class="drawer">
@@ -42,10 +58,15 @@
 					<input type="checkbox" value="dim" class="toggle theme-controller" />
 					<span class="label-text">Dark Mode</span>
 				</label>
-
-				<li>
-					<a href="/login" class="btn btn-content" aria-label="Login">Login</a>
-				</li>
+				{#if !$session?.data}
+					<li>
+						<a href="/login" class="btn btn-content" aria-label="Login">Login</a>
+					</li>
+				{:else}
+					<li>
+						<button type="button" onclick={signOut} class="btn btn-content" aria-label="Login">Logout</button>
+					</li>
+				{/if}
 				<li>
 					<a href="/" class="flex items-center justify-between">
 						Profile
