@@ -5,15 +5,18 @@
 	import { goto } from '$app/navigation';
 
 	const signOut = async () => {
-		await authClient.signOut().then(() => {
-			goto("/")
-		}).catch(error => {
-			Toaster.ejectToast({
-				message: "Failed to sign out!",
-				type: "error"
+		await authClient
+			.signOut()
+			.then(() => {
+				goto('/');
 			})
-		})
-	}
+			.catch((error) => {
+				Toaster.ejectToast({
+					message: 'Failed to sign out!',
+					type: 'error'
+				});
+			});
+	};
 
 	const session = authClient.useSession();
 </script>
@@ -31,6 +34,11 @@
 			class="menu bg-base-100 text-content flex min-h-full w-3/4 flex-col justify-between p-4 md:w-80"
 		>
 			<div>
+				<label class="flex cursor-pointer items-center justify-center gap-8 mb-4">
+					<span class="label-text">Light Mode</span>
+					<input type="checkbox" value="dim" class="toggle theme-controller" />
+					<span class="label-text">Dark Mode</span>
+				</label>
 				<li><a href="/">Home</a></li>
 				<li><a href="/">Pricing</a></li>
 				<li><a href="/">My Organization</a></li>
@@ -53,30 +61,31 @@
 				</li>
 			</div>
 			<div class="space-y-2">
-				<label class="flex cursor-pointer justify-between">
-					<span class="label-text">Light Mode</span>
-					<input type="checkbox" value="dim" class="toggle theme-controller" />
-					<span class="label-text">Dark Mode</span>
-				</label>
 				{#if !$session?.data}
 					<li>
 						<a href="/login" class="btn btn-content" aria-label="Login">Login</a>
 					</li>
 				{:else}
 					<li>
-						<button type="button" onclick={signOut} class="btn btn-content" aria-label="Login">Logout</button>
+						<a href={`/user/profile/${$session.data.user.id}`} class="flex items-center justify-between">
+							Profile
+							<div class="avatar">
+								<div class="w-8 rounded-full">
+									<img
+										src={$session.data.user.image}
+										aria-label={$session.data.user.name}
+										alt={$session.data.user.name}
+									/>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li>
+						<button type="button" onclick={signOut} class="btn btn-content" aria-label="Login"
+							>Logout</button
+						>
 					</li>
 				{/if}
-				<li>
-					<a href="/" class="flex items-center justify-between">
-						Profile
-						<div class="avatar">
-							<div class="w-8 rounded-full">
-								<img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
-							</div>
-						</div>
-					</a>
-				</li>
 			</div>
 		</ul>
 	</aside>

@@ -1,11 +1,11 @@
-import { sql } from 'drizzle-orm';
 import { boolean } from 'drizzle-orm/pg-core';
 import { text } from 'drizzle-orm/pg-core';
 import { uuid } from 'drizzle-orm/pg-core';
 import { pgTable } from 'drizzle-orm/pg-core';
 import { defaults } from './structures/base.schema';
+import type { InferSelectModel } from 'drizzle-orm';
 
-export const Journals = pgTable('journals', {
+export const journals = pgTable('journals', {
 	id: uuid('id')
 		.primaryKey()
 		.defaultRandom(),
@@ -14,3 +14,6 @@ export const Journals = pgTable('journals', {
 	description: text('description').notNull(),
 	...defaults('journal')
 });
+
+
+export type JournalSchema = InferSelectModel<typeof journals>

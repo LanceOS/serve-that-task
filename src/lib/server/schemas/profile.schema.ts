@@ -1,6 +1,7 @@
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { user } from "./authentication.schema";
 import { defaults } from "./structures/base.schema";
+import type { InferSelectModel } from "drizzle-orm";
 
 
 export const profile = pgTable('profile', {
@@ -9,3 +10,5 @@ export const profile = pgTable('profile', {
     bio: text("bio"),
     ...defaults("profile")
 })
+
+export type ProfileSchema = InferSelectModel<typeof profile>

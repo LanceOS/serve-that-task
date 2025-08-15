@@ -22,6 +22,8 @@ import { Pool } from "pg";
 // These files contain the Drizzle ORM definitions for the database tables and relationships.
 import * as authentication from "./server/schemas/authentication.schema";
 import * as organization from "./server/schemas/organization.schema"
+import * as relations from "./server/schemas/relations"
+import * as profile from "./server/schemas/profile.schema"
 
 /**
  * @constant {string} databaseUrl
@@ -85,8 +87,9 @@ testConnection();
  */
 const schemas = {
     ...authentication,
-    ...organization
-
+    ...organization,
+    ...relations,
+    ...profile
 };
 
 /**
