@@ -3,7 +3,7 @@
 @plugin '@tailwindcss/typography';
 @plugin "daisyui" {
 	themes:
-		corporate --default,
+		corporate --default;
 		dim;
 }
 
@@ -26,4 +26,10 @@ h6 {
 
 p {
 	font-weight: lighter;
+}
+
+
+.wrap-long-text {
+  word-break: break-all;
+  overflow-wrap: break-word;
 }

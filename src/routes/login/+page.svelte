@@ -119,22 +119,22 @@
 		<legend class="fieldset-legend text-2xl">Login</legend>
 
 		<div class="flex w-full flex-col">
-			<label class="label text-base-content">Email</label>
-			<input type="email" class="input w-full" placeholder="Email" bind:value={email} />
+			<label for="email" class="label text-base-content">Email</label>
+			<input name="email" id="email" type="email" class="input w-full" aria-label="Enter Your Email" placeholder="Email" bind:value={email} />
 		</div>
 
 		<div class="card-actions flex flex-col items-center">
-			<button class="btn btn-content w-full" onclick={sendOTP}>
+			<button class="btn btn-content w-full" aria-label="Sign in with email" onclick={sendOTP}>
 				<Icon icon="ic:sharp-email" />Log In</button
 			>
-			<button class="btn btn-content w-full"
+			<button class="btn btn-content w-full" aria-label="Sign in with google"
 				><Icon icon="devicon:google" onclick={() => signInWithSocial("google")}/> Log In With Google</button
 			>
-			<button class="btn btn-content w-full"
+			<button class="btn btn-content w-full" aria-label="Sign in with github"
 				><Icon icon="akar-icons:github-fill" onclick={() => signInWithSocial("github")}/> Log In With Github</button
 			>
-			<button class="btn btn-content w-full"><Icon icon="bi:apple" /> Log In With Apple</button>
-			<button class="btn btn-content w-full"
+			<button class="btn btn-content w-full" aria-label="Sign in with apple"><Icon icon="bi:apple" /> Log In With Apple</button>
+			<button class="btn btn-content w-full" aria-label="Sign in with microsoft"
 				><Icon icon="ion:logo-microsoft" /> Log In With Microsoft</button
 			>
 		</div>

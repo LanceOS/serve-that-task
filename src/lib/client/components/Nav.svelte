@@ -39,10 +39,10 @@
 					<input type="checkbox" value="dim" class="toggle theme-controller" />
 					<span class="label-text">Dark Mode</span>
 				</label>
-				<li><a href="/">Home</a></li>
-				<li><a href="/">Pricing</a></li>
-				<li><a href="/">My Organization</a></li>
-				<li><a href="/">Task Manager</a></li>
+				<li><a href="/" aria-label="Home">Home</a></li>
+				<li><a href="/" aria-label="Pricing">Pricing</a></li>
+				<li><a href="/" aria-label="My Organization">My Organization</a></li>
+				<li><a href="/" aria-label="Task Manager">Task Manager</a></li>
 				<li>
 					<a href="/">
 						<div class="indicator -space-x-2">
