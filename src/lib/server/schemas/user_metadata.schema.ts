@@ -8,5 +8,6 @@ export const userMetadata = pgTable('user_metadata', {
 		.references(() => user.id)
 		.notNull(),
 	completedOnboarding: boolean('completed_onboarding').default(false),
+	hasOrganization: boolean("has_organization").default(false),
 	...defaults('metadata')
 });
