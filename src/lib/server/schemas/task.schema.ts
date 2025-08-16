@@ -1,7 +1,7 @@
-import { InferSelectModel } from "drizzle-orm";
 import { pgTable, uuid } from "drizzle-orm/pg-core";
 import { taskGroup } from "./task_group.schema";
 import { defaults } from "./structures/base.schema";
+import type { InferSelectModel } from "drizzle-orm";
 
 
 

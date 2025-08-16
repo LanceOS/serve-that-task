@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import { Toaster } from '$lib/client/components/toaster/Toaster';
+	import { SignIns } from '$lib/client/utils/SignIns.client';
 	import Icon from '@iconify/svelte';
 
 	let email: string = $state('');
@@ -10,130 +11,82 @@
 	let timerInterval: any | undefined;
 
 	const signInWithSocial = async (socialProvider: string) => {
-		await authClient.signIn.social({
-			provider: socialProvider
-		}, {
-			onSuccess: (ctx) => {
-				Toaster.ejectToast({
-					message: "Signed In!",
-					type: "success"
-				})
-				goto("/")
+		await authClient.signIn.social(
+			{
+				provider: socialProvider
 			},
-			onError: (ctx) => {
-				Toaster.ejectToast({
-					message: "Failed to sign in!",
-					type: "error"
-				})
-			}
-		});
-	};
-
-	const sendOTP = async () => {
-		if (!email || !email.includes('@')) {
-			Toaster.ejectToast({
-				message: 'Your email must be valid!',
-				type: 'error'
-			});
-			return;
-		}
-
-		try {
-			const { data, error } = await authClient.emailOtp.sendVerificationOtp({
-				email,
-				type: 'sign-in'
-			});
-
-			if (error) {
-				console.error(error);
-				return error;
-			}
-
-			document.getElementById('my_modal_1')!.showModal();
-			if (timerInterval) {
-				clearInterval(timerInterval);
-			}
-
-			timer = 120;
-			timerInterval = setInterval(() => {
-				if (timer > 0) {
-					timer = timer - 1;
-				} else {
-					clearInterval(timerInterval);
-					timerInterval = undefined;
-				}
-			}, 1000);
-
-			Toaster.ejectToast({
-				message: 'Email Sent',
-				type: 'info'
-			});
-		} catch (error) {
-			Toaster.ejectToast({
-				message: `${error}`,
-				type: 'error'
-			});
-		}
-	};
-
-	const confirmOTP = async () => {
-		if (!otp || otp.length !== 6) {
-			Toaster.ejectToast({
-				message: 'Incorrect Code',
-				type: 'error'
-			});
-			return;
-		}
-
-		try {
-			await authClient.signIn.emailOtp(
-				{
-					email,
-					otp
+			{
+				onSuccess: (ctx) => {
+					Toaster.ejectToast({
+						message: 'Signed In!',
+						type: 'success'
+					});
+					goto('/');
 				},
-				{
-					onSuccess: (ctx) => {
-						Toaster.ejectToast({
-							message: 'Successfully signed in!',
-							type: 'success'
-						});
-						goto('/');
-					},
-					onError: (ctx) => {
-						throw new Error(`Failed login ${ctx}`);
-					}
+				onError: (ctx) => {
+					Toaster.ejectToast({
+						message: 'Failed to sign in!',
+						type: 'error'
+					});
 				}
-			);
-		} catch (error) {
-			Toaster.ejectToast({
-				message: 'Failed to log in',
-				type: 'error'
-			});
-			return;
-		}
+			}
+		);
 	};
+
+	// const sendOTP = async () => {
+	// 	await SignIns.sendOTP(email)
+	// 	document.getElementById('my_modal_1')!.showModal();
+	// 	if (timerInterval) {
+	// 		clearInterval(timerInterval);
+	// 	}
+
+	// 	timer = 120;
+	// 	timerInterval = setInterval(() => {
+	// 		if (timer > 0) {
+	// 			timer = timer - 1;
+	// 		} else {
+	// 			clearInterval(timerInterval);
+	// 			timerInterval = undefined;
+	// 		}
+	// 	}, 1000);
+	// };
+
+	// const confirmOTP = async () => {
+	// 	await SignIns.confirmOTP(email, otp)
+	// }
 </script>
 
 <main class="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-4">
 	<fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-md space-y-4 border p-4">
 		<legend class="fieldset-legend text-2xl">Login</legend>
 
-		<div class="flex w-full flex-col">
+		<!-- <div class="flex w-full flex-col">
 			<label for="email" class="label text-base-content">Email</label>
-			<input name="email" id="email" type="email" class="input w-full" aria-label="Enter Your Email" placeholder="Email" bind:value={email} />
-		</div>
+			<input
+				name="email"
+				id="email"
+				type="email"
+				class="input w-full"
+				aria-label="Enter Your Email"
+				placeholder="Email"
+				bind:value={email}
+			/>
+		</div> -->
 
 		<div class="card-actions flex flex-col items-center">
-			<button class="btn btn-content w-full" aria-label="Sign in with email" onclick={sendOTP}>
+			<!-- <button class="btn btn-content w-full" aria-label="Sign in with email" onclick={sendOTP}>
 				<Icon icon="ic:sharp-email" />Log In</button
-			>
+			> -->
 			<button class="btn btn-content w-full" aria-label="Sign in with google"
-				><Icon icon="devicon:google" onclick={() => signInWithSocial("google")}/> Log In With Google</button
+				><Icon icon="devicon:google" onclick={() => signInWithSocial('google')} /> Log In With Google</button
 			>
 			<button class="btn btn-content w-full" aria-label="Sign in with github"
-				><Icon icon="akar-icons:github-fill" onclick={() => signInWithSocial("github")}/> Log In With Github</button
+				><Icon icon="akar-icons:github-fill" onclick={() => signInWithSocial('github')} /> Log In With
+				Github</button
 			>
-			<button class="btn btn-content w-full" aria-label="Sign in with apple"><Icon icon="bi:apple" /> Log In With Apple</button>
+			<button class="btn btn-content w-full" aria-label="Sign in with apple"
+				><Icon icon="bi:apple" /> Log In With Apple</button
+			>
 			<button class="btn btn-content w-full" aria-label="Sign in with microsoft"
 				><Icon icon="ion:logo-microsoft" /> Log In With Microsoft</button
 			>
@@ -141,7 +94,7 @@
 	</fieldset>
 </main>
 
-<dialog id="my_modal_1" class="modal">
+<!-- <dialog id="my_modal_1" class="modal">
 	<div class="modal-box">
 		<div class="space-y-2">
 			<h3 class="text-lg font-bold">Please enter your code.</h3>
@@ -154,4 +107,4 @@
 			</form>
 		</div>
 	</div>
-</dialog>
+</dialog> -->

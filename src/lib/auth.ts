@@ -101,9 +101,10 @@ export const auth = betterAuth({
 			create: {
 				// after a user is created, do some logic
 				after: async (user) => {
-					await UserServant.createProfile(user.id)
+					await UserServant.createProfile(user.id);
+					const res = await UserServant.checkOnboarding(user.id)
 				}
-			}
+			},
 		}
 	},
 	rateLimit: {

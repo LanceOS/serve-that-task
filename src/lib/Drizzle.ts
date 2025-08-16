@@ -18,12 +18,15 @@ import { drizzle } from "drizzle-orm/node-postgres";
 // Import the 'Pool' class from the 'pg' library, used for managing database connections.
 import { Pool } from "pg";
 
-// Import all defined database schema files.
-// These files contain the Drizzle ORM definitions for the database tables and relationships.
-import * as authentication from "./server/schemas/authentication.schema";
-import * as organization from "./server/schemas/organization.schema"
-import * as relations from "./server/schemas/relations"
-import * as profile from "./server/schemas/profile.schema"
+/**
+ * @constant {object} schemas
+ * @description
+ * Containing all Drizzle ORM schema definitions imported from
+ * various schema files. This combined schema object is passed to the Drizzle client
+ * so it understands the full structure of the database.
+ */
+import * as schemas from "./server/schemas/barrel/SchemaBarrel"
+
 
 /**
  * @constant {string} databaseUrl
@@ -75,22 +78,8 @@ async function testConnection() {
 // Execute the connection test when this module is imported.
 testConnection();
 
-/**
- * @constant {object} schemas
- * @description
- * An aggregated object containing all Drizzle ORM schema definitions imported from
- * various schema files. This combined schema object is passed to the Drizzle client
- * so it understands the full structure of the database.
- * 
- * @note If the amount of schema's in for your database becomes large you can move your
- * schemas to a "barrel" file. Learn more about barrels here at https://basarat.gitbook.io/typescript/main-1/barrel.
- */
-const schemas = {
-    ...authentication,
-    ...organization,
-    ...relations,
-    ...profile
-};
+
+
 
 /**
  * @constant {ReturnType<typeof drizzle>} DrizzleDB
