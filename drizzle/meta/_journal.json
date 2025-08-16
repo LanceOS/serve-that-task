@@ -64,6 +64,20 @@
       "when": 1755218890362,
       "tag": "0008_swift_vapor",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1755358560011,
+      "tag": "0009_vengeful_scarecrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1755360401213,
+      "tag": "0010_outgoing_bushwacker",
+      "breakpoints": true
     }
   ]
 }

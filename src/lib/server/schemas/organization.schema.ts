@@ -5,7 +5,7 @@ import { defaults } from './structures/base.schema';
 import { user } from './authentication.schema';
 import type { InferSelectModel } from 'drizzle-orm';
 
-export const Org = pgTable('organization', {
+export const org = pgTable('organization', {
 	id: uuid('id')
 		.primaryKey()
 		.defaultRandom(),
@@ -22,4 +22,4 @@ export const Org = pgTable('organization', {
 	...defaults('org')
 });
 
-export type OrgSchema = InferSelectModel<typeof Org>;
+export type OrgSchema = InferSelectModel<typeof org>;

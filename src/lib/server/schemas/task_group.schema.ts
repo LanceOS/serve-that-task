@@ -1,13 +1,16 @@
-import { pgTable, uuid, text } from "drizzle-orm/pg-core";
-import { Org } from "./organization.schema";
+import { pgTable, uuid, text, integer } from "drizzle-orm/pg-core";
+import { org } from "./organization.schema";
 import { defaults } from "./structures/base.schema";
 import type { InferSelectModel } from "drizzle-orm";
+import { project } from "./project.schema";
 
 
 export const taskGroup = pgTable("task_group", {
     id: uuid("id").primaryKey().defaultRandom(),
     groupName: text("group_name").notNull(),
-    parentOrgId: uuid("parent_org_id").references(() => Org.id).notNull(),
+    order: integer("order").default(1),
+    parentOrgId: uuid("parent_org_id").references(() => org.id).notNull(),
+    parentProjectId: uuid("parent_project_id").references(() => project.id).notNull(),
     ...defaults("task_group")
 })
 

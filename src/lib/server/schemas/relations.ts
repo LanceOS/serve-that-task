@@ -1,11 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { Org } from './organization.schema';
+import { org } from './organization.schema';
 import { user } from './authentication.schema';
 import { profile } from './profile.schema';
 
-export const organizationRelation = relations(Org, ({ one }) => ({
+export const organizationRelation = relations(org, ({ one }) => ({
 	user: one(user, {
-		fields: [Org.ownerId],
+		fields: [org.ownerId],
 		references: [user.id]
 	})
 }));
