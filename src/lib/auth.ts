@@ -20,12 +20,16 @@ import { PUBLIC_URL } from '$env/static/public';
 
 // Importing authentication-related database schemas. These define the tables
 // that 'better-auth' will use for users, sessions, etc.
-import * as authentication from './server/schemas/authentication.schema';
 import { emailOTP } from 'better-auth/plugins';
 import { MailerFactory } from './server/utils/MailMan.js';
-import { PRIVATE_GITHUB_CLIENT, PRIVATE_GITHUB_SECRET, PRIVATE_GOOGLE_CLIENT, PRIVATE_GOOGLE_SECRET } from '$env/static/private';
+import {
+	PRIVATE_GITHUB_CLIENT,
+	PRIVATE_GITHUB_SECRET,
+	PRIVATE_GOOGLE_CLIENT,
+	PRIVATE_GOOGLE_SECRET
+} from '$env/static/private';
 import { UserServant } from './server/utils/UserServant.server.js';
-
+import * as authentication from './server/schemas/authentication.schema';
 /**
  * @constant {ReturnType<typeof betterAuth>} auth
  * @description
@@ -61,9 +65,13 @@ export const auth = betterAuth({
 		additionalFields: {
 			role: {
 				type: 'string',
-				defaultValue: 'user' // Default role for new users.
+				defaultValue: 'user'
+			},
+			onboarded: {
+				type: 'boolean',
+				defaultValue: false
 			}
-		}
+		},
 	},
 	emailAndPassword: {
 		enabled: true,
@@ -102,9 +110,9 @@ export const auth = betterAuth({
 				// after a user is created, do some logic
 				after: async (user) => {
 					await UserServant.createProfile(user.id);
-					const res = await UserServant.checkOnboarding(user.id)
+					await UserServant.createUserMetadata(user.id);
 				}
-			},
+			}
 		}
 	},
 	rateLimit: {

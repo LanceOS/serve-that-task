@@ -1,11 +1,9 @@
-import { goto } from "$app/navigation";
-import { authClient } from "$lib/auth-client";
-import { Toaster } from "../components/toaster/Toaster";
-
-
+import { goto } from '$app/navigation';
+import { authClient } from '$lib/auth-client';
+import { Toaster } from '../components/toaster/Toaster';
 
 export const SignIns = {
-    	sendOTP: async (email: string) => {
+	sendOTP: async (email: string) => {
 		if (!email || !email.includes('@')) {
 			Toaster.ejectToast({
 				message: 'Your email must be valid!',
@@ -47,25 +45,18 @@ export const SignIns = {
 		}
 
 		try {
-			await authClient.signIn.emailOtp(
-				{
-					email,
-					otp
-				},
-				{
-					onSuccess: (ctx) => {
-						Toaster.ejectToast({
-							message: 'Successfully signed in!',
-							type: 'success'
-						});
-						goto('/');
-					},
-					onError: (ctx) => {
-						throw new Error(`Failed login ${ctx}`);
-					}
-				}
-			);
-		} catch (error) {
+			const { data, error } = await authClient.signIn.emailOtp({
+				email,
+				otp
+			});
+
+			if(error) {
+				throw new Error();
+			}
+
+			goto(`/profile/${data.user.id}`)
+		} catch (error: unknown) {
+			console.error(error)
 			Toaster.ejectToast({
 				message: 'Failed to log in',
 				type: 'error'
@@ -73,4 +64,4 @@ export const SignIns = {
 			return;
 		}
 	}
-}
+};

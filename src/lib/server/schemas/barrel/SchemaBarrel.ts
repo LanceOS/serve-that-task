@@ -5,5 +5,5 @@ export * from "../project.schema";
 export * from "../relations";
 export * from "../profile.schema";
 export * from "../user_metadata.schema";
-export * from "../organization.schema";
 export * from "../journals.schema";
+export * from "../team.schema";

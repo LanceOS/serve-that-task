@@ -1,6 +1,7 @@
-import { DrizzleDB } from '$lib/Drizzle';
 import { eq } from 'drizzle-orm';
 import { profile } from '../schemas/profile.schema';
+import { userMetadata } from '../schemas/user_metadata.schema';
+import { DrizzleDB } from '../../Drizzle';
 import { user } from '../schemas/authentication.schema';
 
 export const UserServant = {
@@ -17,27 +18,35 @@ export const UserServant = {
 	getUserProfile: async (id: string) => {
 		try {
 			return await DrizzleDB.query.profile.findFirst({
-                where: eq(profile.userId, id),
-                with: {
-                    user: true
-                }
-            })
+				where: eq(profile.userId, id),
+				with: {
+					user: true
+				}
+			});
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
 		}
 	},
 
-
-
-	checkOnboarding: async (id: string) => {
+	createUserMetadata: async (id: string) => {
 		try {
-			return await DrizzleDB.query.userMetadata.findFirst({
-				where: eq(user.id, id)
-			})
-		}
-		catch(error: unknown) {
+			await DrizzleDB.insert(userMetadata).values({
+				userId: id
+			});
+		} catch (error: unknown) {
 			throw new Error(`${error}`);
+		}
+	},
 
+	assignUserName: async (name: string, userId: string) => {
+		try {
+			await DrizzleDB.update(user)
+				.set({
+					name: name
+				})
+				.where(eq(user.id, userId));
+		} catch (error: unknown) {
+			throw new Error(`${error}`);
 		}
 	}
 };
