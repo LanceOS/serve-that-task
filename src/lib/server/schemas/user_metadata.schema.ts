@@ -1,6 +1,5 @@
 import { boolean, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { defaults } from './structures/base.schema';
-import { team } from './team.schema';
 import { user } from './authentication.schema';
 
 export const userMetadata = pgTable('user_metadata', {
@@ -8,7 +7,8 @@ export const userMetadata = pgTable('user_metadata', {
 	userId: text('user_id')
 		.references(() => user.id)
 		.notNull(),
-	hasOrganization: boolean("has_organization").default(false),
-	associatedOrg: uuid("associated_org").references(() => team.id),
+	has_workspace: boolean("has_workspace").default(false),
+	preferredTheme: text("preferred_theme").default("dim"),
+	online: boolean("online").default(false),
 	...defaults('metadata')
 });

@@ -6,4 +6,6 @@ export * from "../relations";
 export * from "../profile.schema";
 export * from "../user_metadata.schema";
 export * from "../journals.schema";
-export * from "../team.schema";
+export * from "../workspace.schema";
+export * from "../invite_codes.schema";
+export * from "../workspace_members.schema"

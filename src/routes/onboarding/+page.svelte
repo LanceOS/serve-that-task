@@ -1,43 +1,59 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { authClient } from '$lib/auth-client';
 	import { Toaster } from '$lib/client/components/toaster/Toaster';
 
 	const session = authClient.useSession();
 	let user = $derived($session?.data?.user);
 
-
 	let onboarder = $state({
 		name: user?.name ?? '',
-		accountType: 'individual', // 'individual', 'create_team', or 'join_team'
-		teamName: '',
-		teamDescription: '',
+		accountType: 'create_workspace', // 'create_workspace', or 'join_workspace'
+		workspaceName: '',
+		workspaceDescription: '',
 		inviteCode: ''
 	});
 
 	const confirm = async () => {
 		try {
-			const data = {
-				onboarder,
-				user
-			};
+			if (!user) {
+				throw new Error('User must be logged in!');
+			}
+			if (onboarder.accountType === 'create_workspace') {
+				if (!onboarder.workspaceName || !onboarder.workspaceDescription) {
+					throw new Error('Please fill out all workspace fields.');
+				}
+			}
+			if (onboarder.accountType === 'join_workspace') {
+				if (!onboarder.inviteCode) {
+					throw new Error('Please enter an invite code.');
+				}
+			}
 
 			const response = await fetch('/onboarding', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(data)
+				body: JSON.stringify(onboarder)
 			});
 
-            if(!response.ok) {
-                throw new Error()
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Something went wrong.');
             }
-		} catch (error) {
+			
             Toaster.ejectToast({
-                message: "Failed to onboard",
-                type: "error"
-            })
-        }
+                message: "Successfully onboarded!",
+                type: "success"
+            });
+            goto(`/user/profile/${user.id}`);
+		} catch (error: any) {
+			Toaster.ejectToast({
+				message: error.message,
+				type: 'error'
+			});
+		}
 	};
 </script>
 
@@ -74,10 +90,10 @@
 						type="radio"
 						name="accountType"
 						class="radio radio-primary"
-						value="individual"
+						value="create_workspace"
 						bind:group={onboarder.accountType}
 					/>
-					<span>For myself (individual)</span>
+					<span>Create a new workspace</span>
 				</label>
 				<label
 					class="has-[:checked]:border-primary flex cursor-pointer items-center gap-3 rounded-lg border p-3"
@@ -86,63 +102,54 @@
 						type="radio"
 						name="accountType"
 						class="radio radio-primary"
-						value="create_team"
+						value="join_workspace"
 						bind:group={onboarder.accountType}
 					/>
-					<span>Create a new team</span>
-				</label>
-				<label
-					class="has-[:checked]:border-primary flex cursor-pointer items-center gap-3 rounded-lg border p-3"
-				>
-					<input
-						type="radio"
-						name="accountType"
-						class="radio radio-primary"
-						value="join_team"
-						bind:group={onboarder.accountType}
-					/>
-					<span>Join an existing team</span>
+					<span>Join an existing workspace</span>
 				</label>
 			</div>
 		</div>
 
-		{#if onboarder.accountType === 'create_team'}
+		{#if onboarder.accountType === 'create_workspace'}
 			<div class="border-base-content/20 bg-base-200/50 space-y-4 rounded-md border p-4">
-				<h3 class="font-semibold">Tell us about your new team:</h3>
+				<h3 class="font-semibold">Tell us about your new workspace:</h3>
 				<div class="form-control w-full">
-					<label class="label" for="team-name-input">
-						<span class="label-text">Team Name</span>
+					<label class="label" for="workspace-name-input">
+						<span class="label-text">Workspace Name</span>
 					</label>
 					<input
-						id="team-name-input"
+						id="workspace-name-input"
 						type="text"
 						class="input input-bordered w-full"
-						placeholder="The A-Team"
-						bind:value={onboarder.teamName}
+						placeholder="New Business Idea"
+						bind:value={onboarder.workspaceName}
 						required
 					/>
 				</div>
 				<div class="form-control w-full">
-					<label class="label" for="team-desc-input">
-						<span class="label-text">Team Description</span>
-						<span class="label-text-alt" class:text-error={onboarder.teamDescription.length >= 250}>
-							{onboarder.teamDescription.length} / 250
+					<label class="label" for="workspace-desc-input">
+						<span class="label-text">Workspace Description</span>
+						<span
+							class="label-text-alt"
+							class:text-error={onboarder.workspaceDescription.length >= 150}
+						>
+							{onboarder.workspaceDescription.length} / 150
 						</span>
 					</label>
 					<textarea
-						id="team-desc-input"
+						id="workspace-desc-input"
 						class="textarea textarea-bordered w-full"
-						placeholder="A short and sweet description of what your team does."
-						bind:value={onboarder.teamDescription}
-						maxlength="250"
+						placeholder="A short and sweet description of what your workspace does."
+						bind:value={onboarder.workspaceDescription}
+						maxlength="150"
 					></textarea>
 				</div>
 			</div>
 		{/if}
 
-		{#if onboarder.accountType === 'join_team'}
+		{#if onboarder.accountType === 'join_workspace'}
 			<div class="border-base-content/20 bg-base-200/50 space-y-4 rounded-md border p-4">
-				<h3 class="font-semibold">Enter your team's invite code:</h3>
+				<h3 class="font-semibold">Enter your workspace's invite code:</h3>
 				<div class="form-control w-full">
 					<label class="label" for="invite-code-input">
 						<span class="label-text">Invite Code</span>
@@ -159,6 +166,6 @@
 			</div>
 		{/if}
 
-		<button type="submit" class="btn btn-primary w-full">Finish Setup</button>
+		<button type="button" class="btn btn-primary w-full" onclick={confirm}>Finish Setup</button>
 	</form>
 </main>

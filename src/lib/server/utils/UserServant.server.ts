@@ -48,5 +48,6 @@ export const UserServant = {
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
 		}
-	}
+	},
+	
 };

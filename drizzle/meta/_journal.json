@@ -15,6 +15,41 @@
       "when": 1755382640118,
       "tag": "0001_overjoyed_cerebro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755397904543,
+      "tag": "0002_minor_lionheart",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1755398533267,
+      "tag": "0003_powerful_zaran",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755451616899,
+      "tag": "0004_polite_silver_centurion",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1755452929243,
+      "tag": "0005_daily_joystick",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1755465287993,
+      "tag": "0006_busy_black_queen",
+      "breakpoints": true
     }
   ]
 }

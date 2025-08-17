@@ -4,7 +4,7 @@ import { defaults } from './structures/base.schema';
 import { user } from './authentication.schema';
 import type { InferSelectModel } from 'drizzle-orm';
 
-export const team = pgTable('team', {
+export const workspace = pgTable('workspace', {
 	id: uuid('id')
 		.primaryKey()
 		.defaultRandom(),
@@ -13,7 +13,7 @@ export const team = pgTable('team', {
 	ownerId: text('owner')
 		.references(() => user.id)
 		.notNull(),
-	...defaults('team')
+	...defaults('workspace')
 });
 
-export type TeamSchema = InferSelectModel<typeof team>;
+export type WorkspaceSchema = InferSelectModel<typeof workspace>;
