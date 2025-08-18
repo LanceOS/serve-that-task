@@ -31,11 +31,7 @@
 	// };
 
 	const sendOTP = async () => {
-		const result = await SignIns.sendOTP(email);
-		if(result === false) {
-			return;
-		}
-
+		await SignIns.sendOTP(email)
 		document.getElementById('my_modal_1')!.showModal();
 		if (timerInterval) {
 			clearInterval(timerInterval);

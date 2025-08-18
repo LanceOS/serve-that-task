@@ -18,7 +18,7 @@
 			});
 	};
 
-	const session = authClient.useSession()
+	const session = authClient.useSession();
 </script>
 
 <div class="drawer">
@@ -42,7 +42,7 @@
 				<li><a href="/" aria-label="Home">Home</a></li>
 				<li><a href="/" aria-label="Pricing">Pricing</a></li>
 				{#if $session.data?.user.onboarded}
-					<li><a href="/workspace" aria-label="My Organization">My Workspace</a></li>
+					<li><a href="/" aria-label="My Organization">My Workspace</a></li>
 					<li><a href="/" aria-label="Task Manager">Task Manager</a></li>
 					<li>
 						<a href="/">
