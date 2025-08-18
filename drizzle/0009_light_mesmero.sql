@@ -1,0 +1,4 @@
+ALTER TABLE "project_metadata" ADD COLUMN "parent_workspace_id" uuid;--> statement-breakpoint
+ALTER TABLE "workspace_metadata" ADD COLUMN "workspace_id" uuid;--> statement-breakpoint
+ALTER TABLE "project_metadata" ADD CONSTRAINT "project_metadata_parent_workspace_id_workspace_id_fk" FOREIGN KEY ("parent_workspace_id") REFERENCES "public"."workspace"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "workspace_metadata" ADD CONSTRAINT "workspace_metadata_workspace_id_workspace_id_fk" FOREIGN KEY ("workspace_id") REFERENCES "public"."workspace"("id") ON DELETE no action ON UPDATE no action;

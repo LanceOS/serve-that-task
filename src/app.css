@@ -1,18 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
-@plugin "daisyui" {
-	themes:
-		corporate --default,
-		dim;
-}
-
-
 
 * {
 	box-sizing: border-box;
 	scroll-behavior: smooth;
-	font-family: 'Google Sans Code', monospace;
+  font-family: "Oxygen", sans-serif;
 }
 
 h1,
@@ -25,11 +18,10 @@ h6 {
 }
 
 p {
-	font-weight: lighter;
+	font-weight: light;
 }
 
-
 .wrap-long-text {
-  word-break: break-all;
-  overflow-wrap: break-word;
+	word-break: break-all;
+	overflow-wrap: break-word;
 }

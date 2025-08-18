@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		return {
 			profile: res
 		};
-	} catch (error) {
-		return fail(500, { error: 'Failed to get user data' });
+	} catch (error: any) {
+		throw error(500, { error: 'Failed to get user data' });
 	}
 };
