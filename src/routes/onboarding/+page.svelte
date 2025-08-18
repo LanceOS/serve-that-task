@@ -38,16 +38,16 @@
 				body: JSON.stringify(onboarder)
 			});
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Something went wrong.');
-            }
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.error || 'Something went wrong.');
+			}
+			Toaster.ejectToast({
+				message: 'Successfully onboarded!',
+				type: 'success'
+			});
 			
-            Toaster.ejectToast({
-                message: "Successfully onboarded!",
-                type: "success"
-            });
-            goto(`/user/profile/${user.id}`);
+			goto(`/user/profile/${user.id}`);
 		} catch (error: any) {
 			Toaster.ejectToast({
 				message: error.message,

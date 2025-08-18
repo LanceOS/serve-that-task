@@ -8,7 +8,7 @@
 </script>
 
 {#if $toastStore.visible}
-	<Toast message={$toastStore.message} type={$toastStore.type}/>
+	<Toast message={$toastStore.message} type={$toastStore.type} />
 {/if}
 <Nav />
 {@render children()}

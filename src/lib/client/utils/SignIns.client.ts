@@ -9,7 +9,7 @@ export const SignIns = {
 				message: 'Your email must be valid!',
 				type: 'error'
 			});
-			return;
+			return false;
 		}
 
 		try {
