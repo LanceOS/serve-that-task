@@ -1,0 +1,37 @@
+{
+    "navigation": {
+        "home": "Home",
+        "pricing": "Pricing",
+        "myWorkspace": "My Workspace",
+        "taskManager": "Task Manager",
+        "myTasks": "My Tasks",
+        "inbox": "Inbox",
+        "login": "Login",
+        "profile": "Profile",
+        "logout": "Logout",
+        "language": "Languages",
+        "languages": {
+            "en": "English",
+            "es": "Spanish"
+        }
+    },
+	"home": {
+		"title": "Serve That Task",
+		"subtitle": "The easy non-bloated employee tasking and messaging app!"
+	},
+    "profile": {
+        "bio": "User Bio"
+    },
+    "workspaces": {
+        "title": "My Workspaces",
+        "searchLabel": "Search for a workspace by name",
+        "viewSpace": "View Space"
+    },
+    "workspaceDashboard": {
+        "title": "Workspace",
+        "membersSummary": "Workspace Members",
+        "searchMembersLabel": "Search Members",
+        "statsSummary": "Workspace Stats",
+        "projectList": "Project List"
+    }
+}
